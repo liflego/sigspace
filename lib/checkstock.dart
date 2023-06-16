@@ -99,35 +99,21 @@ class _checkstock extends State<checkstock> {
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading:
-                    stringpreferences1?[1] == "SALE" ? true : false,
+                    stringpreferences1?[1] == "CUSTOMER" ? true : false,
                 toolbarHeight: 7.h,
                 title: Text(
                   "STOCK",
                   style: TextStyle(fontFamily: 'newtitlefont', fontSize: 25.sp),
                 ),
                 actions: [
-                  stringpreferences1?[1] == "ADMIN"
-                      ? IconButton(
-                          onPressed: () {
-                            // Navigator.of(context).pushReplacement(
-                            //     MaterialPageRoute(
-                            //         builder: (context) => addnewproductpage()));
-                          },
-                          icon: Icon(Icons.add_circle))
-                      : SizedBox()
+                  IconButton(
+                      onPressed: () {
+                        // Navigator.of(context).pushReplacement(
+                        //     MaterialPageRoute(
+                        //         builder: (context) => addnewproductpage()));
+                      },
+                      icon: Icon(Icons.history))
                 ],
-                leading: stringpreferences1?[1] == "DEALER"
-                    ? IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: ((context) => MyApp())));
-                        },
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ))
-                    : null,
                 backgroundColor: ColorConstants.appbarcolor,
               ),
               backgroundColor: ColorConstants.backgroundbody,
@@ -329,66 +315,123 @@ class _checkstock extends State<checkstock> {
               children: [
                 SizedBox(
                   height: 7.0.h,
-                  width: MediaQuery.of(context).size.width / 1.15,
-                  child: toggle != 0
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width / 4,
-                          height: MediaQuery.of(context).size.height,
-                          child: Center(
-                              child: toggle == 1
-                                  ? Text(
-                                      "เรียงลำดับจำนวนจากน้อยไปมาก",
-                                      style: TextStyle(
-                                          fontSize: 18.sp,
-                                          fontFamily: 'newbodyfont',
-                                          color: Colors.red),
-                                    )
-                                  : Text(
-                                      "เรียงลำดับจำนวนจากมากไปน้อย",
-                                      style: TextStyle(
-                                          fontSize: 18.sp,
-                                          fontFamily: 'newbodyfont',
-                                          color: Colors.red),
-                                    )),
-                        )
-                      : ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: grouptype.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    allproductfordisplay =
-                                        allproduct.where((_allproduct) {
-                                      var nameproduct =
-                                          _allproduct.alltype.toLowerCase();
-                                      return nameproduct
-                                          .contains(grouptype[index]);
-                                    }).toList();
-                                  });
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 4,
-                                  height: MediaQuery.of(context).size.height,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        color: HexColor('#39474F'), width: 1),
-                                    color: Colors.grey[50],
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "${grouptype[index]}",
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12.0.sp),
-                                    ),
-                                  ),
-                                ));
+                  width: MediaQuery.of(context).size.width / 0.85.sp,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: grouptype.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TextButton(
+                          onPressed: () {
+                            if (grouptype[index] == "FAVORITE") {
+                              setState(() {
+                                grouptype[0] = "หน้าหลัก";
+                                allproductfordisplay =
+                                    allproduct.where((_allproduct) {
+                                  var nameproduct =
+                                      _allproduct.fav.toString().toLowerCase();
+                                  return nameproduct.contains(1.toString());
+                                }).toList();
+                              });
+                            } else if (grouptype[index] == "หน้าหลัก") {
+                              setState(() {
+                                grouptype[0] = "FAVORITE";
+                                allproductfordisplay = allproduct;
+                              });
+                            } else {
+                              setState(() {
+                                grouptype[0] = "FAVORITE";
+                                allproductfordisplay =
+                                    allproduct.where((_allproduct) {
+                                  var nameproduct =
+                                      _allproduct.alltype.toLowerCase();
+                                  return nameproduct.contains(grouptype[index]);
+                                }).toList();
+                              });
+                            }
                           },
-                        ),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 4,
+                            height: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  color: HexColor('#39474F'), width: 1),
+                              color: Colors.grey[50],
+                            ),
+                            child: Center(
+                              child: Text(
+                                "${grouptype[index]}",
+                                maxLines: 1,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 12.0.sp),
+                              ),
+                            ),
+                          ));
+                    },
+                  ),
                 ),
+                // SizedBox(
+                //   height: 7.0.h,
+                //   width: MediaQuery.of(context).size.width / 1.15,
+                //   child: toggle != 0
+                //       ? SizedBox(
+                //           width: MediaQuery.of(context).size.width / 4,
+                //           height: MediaQuery.of(context).size.height,
+                //           child: Center(
+                //               child: toggle == 1
+                //                   ? Text(
+                //                       "เรียงลำดับจำนวนจากน้อยไปมาก",
+                //                       style: TextStyle(
+                //                           fontSize: 18.sp,
+                //                           fontFamily: 'newbodyfont',
+                //                           color: Colors.red),
+                //                     )
+                //                   : Text(
+                //                       "เรียงลำดับจำนวนจากมากไปน้อย",
+                //                       style: TextStyle(
+                //                           fontSize: 18.sp,
+                //                           fontFamily: 'newbodyfont',
+                //                           color: Colors.red),
+                //                     )),
+                //         )
+                //       : ListView.builder(
+                //           scrollDirection: Axis.horizontal,
+                //           itemCount: grouptype.length,
+                //           itemBuilder: (BuildContext context, int index) {
+                //             return TextButton(
+                //                 onPressed: () {
+                //                   setState(() {
+                //                     allproductfordisplay =
+                //                         allproduct.where((_allproduct) {
+                //                       var nameproduct =
+                //                           _allproduct.alltype.toLowerCase();
+                //                       return nameproduct
+                //                           .contains(grouptype[index]);
+                //                     }).toList();
+                //                   });
+                //                 },
+                //                 child: Container(
+                //                   width: MediaQuery.of(context).size.width / 4,
+                //                   height: MediaQuery.of(context).size.height,
+                //                   decoration: BoxDecoration(
+                //                     borderRadius: BorderRadius.circular(10),
+                //                     border: Border.all(
+                //                         color: HexColor('#39474F'), width: 1),
+                //                     color: Colors.grey[50],
+                //                   ),
+                //                   child: Center(
+                //                     child: Text(
+                //                       "${grouptype[index]}",
+                //                       maxLines: 1,
+                //                       style: TextStyle(
+                //                           color: Colors.black,
+                //                           fontSize: 12.0.sp),
+                //                     ),
+                //                   ),
+                //                 ));
+                //           },
+                //         ),
+                // ),
                 IconButton(
                     onPressed: () {
                       setState(() {
@@ -424,7 +467,6 @@ class _checkstock extends State<checkstock> {
                     ))
               ],
             )
-            ////here for customer
           ],
         ),
       ),
@@ -490,82 +532,84 @@ class _checkstock extends State<checkstock> {
       elevation: 2,
       color: ColorConstants.cardcolor,
       child: Slidable(
-        endActionPane: stringpreferences1?[1] == "DEALER"
-            ? ActionPane(
+        endActionPane: stringpreferences1?[1] == "CUSTOMER" &&
+                allproductfordisplay[index].fav == 0
+            ? ActionPane(motion: ScrollMotion(),
+
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                    Container(
+                      color: Colors.green,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width / 2.25,
+                      child: Center(
+                        child: OutlinedButton(
+                            onPressed: () {
+                              insertfavorite(index);
+                            },
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              width: MediaQuery.of(context).size.width / 2.25,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Colors.white,
+                                    size: 22.sp,
+                                  ),
+                                  Text(
+                                    "FAVORITE",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'newbodyfont',
+                                        fontSize: 15.sp),
+                                  )
+                                ],
+                              ),
+                            )),
+                      ),
+                    )
+                  ])
+            : ActionPane(
                 motion: ScrollMotion(),
 
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  grouptype[0] == "FAVORITE"
-                      ? Container(
-                          color: Colors.green,
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width / 2.25,
-                          child: Center(
-                            child: OutlinedButton(
-                                onPressed: () {
-                                  insertfavorite(index);
-                                },
-                                child: SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.25,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.favorite,
-                                        color: Colors.white,
-                                        size: 22.sp,
-                                      ),
-                                      Text(
-                                        "FAVORITE",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'newbodyfont',
-                                            fontSize: 15.sp),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
-                        )
-                      : Container(
-                          color: Colors.red,
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width / 2.25,
-                          child: Center(
-                            child: OutlinedButton(
-                                onPressed: () {
-                                  insertfavorite(index);
-                                },
-                                child: SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.25,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.cancel,
-                                        color: Colors.white,
-                                        size: 22.sp,
-                                      ),
-                                      Text(
-                                        "UNFAVORITE",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'newbodyfont',
-                                            fontSize: 15.sp),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
-                        ),
+                  Container(
+                    color: Colors.red,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width / 2.25,
+                    child: Center(
+                      child: OutlinedButton(
+                          onPressed: () {
+                            insertunfavorite(index);
+                          },
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width / 2.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.cancel,
+                                  color: Colors.white,
+                                  size: 22.sp,
+                                ),
+                                Text(
+                                  "UNFAVORITE",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'newbodyfont',
+                                      fontSize: 15.sp),
+                                )
+                              ],
+                            ),
+                          )),
+                    ),
+                  ),
                 ],
-              )
-            : null,
+              ),
         child: OutlinedButton(
           onPressed: () {
             if (stringpreferences1?[1] == "ADMIN") {
@@ -675,7 +719,6 @@ class _checkstock extends State<checkstock> {
     auth = stringpreferences1![4];
 
     String url = "http://185.78.165.189:3001/sigspaceapi/codestore";
-    String url1 = "http://185.78.165.189:3001/sigspaceapi/getproductfordealer";
 
     List getgrouptype = [];
     List<Getallproduct>? _allproduct = [];
@@ -687,25 +730,24 @@ class _checkstock extends State<checkstock> {
         "codestore": stringpreferences2?[0]
       };
 
-      getgrouptype.add("FAVORITE");
-      http.Response response = await http.post(Uri.parse(url1),
-          headers: {'Content-Type': 'application/json; charset=utf-8'},
-          body: JsonEncoder().convert(body));
+      // http.Response response = await http.post(Uri.parse(url1),
+      //     headers: {'Content-Type': 'application/json; charset=utf-8'},
+      //     body: JsonEncoder().convert(body));
 
-      dynamic jsonres = json.decode(response.body);
-      for (var u in jsonres) {
-        Getallproduct data = Getallproduct(
-          u["codeproduct"],
-          u["nameproduct"],
-          u["amount"],
-          u["amountpercrate"],
-          u["productset"],
-          u["type"],
-        );
-        _allproduct.add(data);
-        getgrouptype.add(u["type"]);
-        getamount.add(u["amount"]);
-      }
+      // dynamic jsonres = json.decode(response.body);
+      // for (var u in jsonres) {
+      //   Getallproduct data = Getallproduct(
+      //       u["codeproduct"],
+      //       u["nameproduct"],
+      //       u["amount"],
+      //       u["amountpercrate"],
+      //       u["productset"],
+      //       u["type"],
+      //       u["fav"]);
+      //   _allproduct.add(data);
+      //   getgrouptype.add(u["type"]);
+      //   getamount.add(u["amount"]);
+      // }
     } else {
       var body = {"codestore": stringpreferences1![0]};
       http.Response response = await http.post(Uri.parse(url),
@@ -713,9 +755,16 @@ class _checkstock extends State<checkstock> {
           body: JsonEncoder().convert(body));
 
       dynamic jsonres = json.decode(response.body);
+      getgrouptype.add("FAVORITE");
       for (var u in jsonres) {
-        Getallproduct data = Getallproduct(u["codeproduct"], u["nameproduct"],
-            u["amount"], u["amountpercrate"], u["productset"], u["type"]);
+        Getallproduct data = Getallproduct(
+            u["codeproduct"],
+            u["nameproduct"],
+            u["amount"],
+            u["amountpercrate"],
+            u["productset"],
+            u["type"],
+            u["fav"]);
         _allproduct.add(data);
         getgrouptype.add(u["type"]);
         getamount.add(u["amount"]);
@@ -742,13 +791,13 @@ class _checkstock extends State<checkstock> {
     dynamic jsonres = json.decode(response.body);
     for (var u in jsonres) {
       Getallproduct data = Getallproduct(
-        u["codeproduct"],
-        u["nameproduct"],
-        u["amount"],
-        u["amountpercrate"],
-        u["productset"],
-        u["type"],
-      );
+          u["codeproduct"],
+          u["nameproduct"],
+          u["amount"],
+          u["amountpercrate"],
+          u["productset"],
+          u["type"],
+          u["fav"]);
       _allproduct.add(data);
     }
 
@@ -771,13 +820,13 @@ class _checkstock extends State<checkstock> {
     dynamic jsonres = json.decode(response.body);
     for (var u in jsonres) {
       Getallproduct data = Getallproduct(
-        u["codeproduct"],
-        u["nameproduct"],
-        u["amount"],
-        u["amountpercrate"],
-        u["productset"],
-        u["type"],
-      );
+          u["codeproduct"],
+          u["nameproduct"],
+          u["amount"],
+          u["amountpercrate"],
+          u["productset"],
+          u["type"],
+          u["fav"]);
       _allproduct.add(data);
     }
 
@@ -892,19 +941,6 @@ class _checkstock extends State<checkstock> {
             ],
           ));
 
-  // Future gotoorder() async {
-  //   Navigator.of(context).push(MaterialPageRoute(
-  //       builder: (context) => orderfromsellandcus(
-  //             codeorder: codeorder,
-  //             nameorder: nameorder,
-  //             numorder: numorder,
-  //             numpercrate: numpercrate,
-  //             productset: productset,
-  //             price: price,
-  //             position: stringpreferences1![1],
-  //           )));
-  // }
-
   Future getdatafromorderpage() async {
     if (widget.codeorder != null) {
       codeorder = widget.codeorder;
@@ -917,16 +953,14 @@ class _checkstock extends State<checkstock> {
   }
 
   Future insertfavorite(index) async {
-    SharedPreferences preferences2 = await SharedPreferences.getInstance();
-    stringpreferences2 = preferences2.getStringList("dealercode");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     stringpreferences1 = preferences.getStringList("codestore");
     try {
       String url = "http://185.78.165.189:3001/sigspaceapi/insertfavorite";
       var body = {
+        "fav": "1",
         "codeproduct": allproductfordisplay[index].codeproduct.toString(),
-        "codestore": stringpreferences2![0].toString(),
-        "dealercode": stringpreferences1![0]
+        "codestore": stringpreferences1![0].toString(),
       };
 
       http.Response response = await http.post(Uri.parse(url),
@@ -937,7 +971,44 @@ class _checkstock extends State<checkstock> {
         return showDialog(
             context: context,
             builder: (_) => new AlertDialog(
-                  content: new Text("Success"),
+                  content: new Text("ADD FAVORITE SUCCESSFULLY"),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('DONE'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
+      } else {
+        print("server error");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future insertunfavorite(index) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    stringpreferences1 = preferences.getStringList("codestore");
+    try {
+      String url = "http://185.78.165.189:3001/sigspaceapi/insertfavorite";
+      var body = {
+        "fav": "0",
+        "codeproduct": allproductfordisplay[index].codeproduct.toString(),
+        "codestore": stringpreferences1![0].toString(),
+      };
+
+      http.Response response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=utf-8'},
+          body: JsonEncoder().convert(body));
+
+      if (response.statusCode == 200) {
+        return showDialog(
+            context: context,
+            builder: (_) => new AlertDialog(
+                  content: new Text(" UNFAVORITE SUCCESSFULLY"),
                   actions: <Widget>[
                     TextButton(
                       child: Text('DONE'),

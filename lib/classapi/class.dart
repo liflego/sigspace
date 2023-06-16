@@ -38,15 +38,10 @@ class Getallproduct {
   int amountpercrate;
   String productset;
   String alltype;
+  int fav;
 
-  Getallproduct(
-    this.codeproduct,
-    this.nameproduct,
-    this.amount,
-    this.amountpercrate,
-    this.productset,
-    this.alltype,
-  );
+  Getallproduct(this.codeproduct, this.nameproduct, this.amount,
+      this.amountpercrate, this.productset, this.alltype, this.fav);
 }
 
 class Getallcustomer {

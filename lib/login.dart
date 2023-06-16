@@ -273,7 +273,7 @@ class _loginState extends State<login> {
           }));
           ////update login status
           String url2 =
-              "http://185.78.165.189:3000/pythonapi/updateloginstatus";
+              "http://185.78.165.189:3001/sigspaceapi/updateloginstatus";
 
           var body2 = {
             "loginstatus": "1",
