@@ -39,9 +39,17 @@ class Getallproduct {
   String productset;
   String alltype;
   int fav;
+  int priceforpack;
 
-  Getallproduct(this.codeproduct, this.nameproduct, this.amount,
-      this.amountpercrate, this.productset, this.alltype, this.fav);
+  Getallproduct(
+      this.codeproduct,
+      this.nameproduct,
+      this.amount,
+      this.amountpercrate,
+      this.productset,
+      this.alltype,
+      this.fav,
+      this.priceforpack);
 }
 
 class Getallcustomer {

@@ -39,7 +39,7 @@ class MyAppState extends State<MyApp> {
       numorder: [],
       numpercrate: [],
       productset: [],
-      price: [],
+      priceforpack: [],
     ),
     notipage()
   ];

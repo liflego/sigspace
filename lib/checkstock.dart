@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sigspace/classapi/class.dart';
 import 'package:sigspace/login.dart';
 import 'package:sigspace/main.dart';
+import 'package:sigspace/substock/orderformcus.dart';
 import 'package:sigspace/substock/updatepage.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,7 +23,7 @@ class checkstock extends StatefulWidget {
   List<int> numorder = [];
   List<String> numpercrate = [];
   List<String> productset = [];
-  List<int> price = [];
+  List<int> priceforpack = [];
 
   checkstock(
       {Key? key,
@@ -31,7 +32,7 @@ class checkstock extends StatefulWidget {
       required this.numorder,
       required this.numpercrate,
       required this.productset,
-      required this.price})
+      required this.priceforpack})
       : super(key: key);
 
   @override
@@ -47,7 +48,7 @@ class _checkstock extends State<checkstock> {
   List<int> numorder = [];
   List<String> numpercrate = [];
   List<String> productset = [];
-  List<int> price = [];
+  List<int> priceforpack = [];
   List<String>? stringpreferences1;
   List<String>? stringpreferences2;
   String? _scanBarcode = 'Unknown';
@@ -256,27 +257,33 @@ class _checkstock extends State<checkstock> {
                   ],
                 ),
               ),
-              floatingActionButton: stringpreferences1?[1] == "ADMIN"
-                  ? null
-                  : FloatingActionButton(
-                      onPressed: () {
-                        // gotoorder
-                      },
-                      backgroundColor: ColorConstants.appbarcolor,
-                      child: noti != 0
-                          ? Badge(
-                              badgeStyle: BadgeStyle(badgeColor: Colors.blue),
-                              badgeContent: Text(
-                                '$noti',
-                                style: TextStyle(
-                                    fontSize: 12.0.sp,
-                                    fontFamily: 'newtitlefont',
-                                    color: Colors.red),
-                              ),
-                              child: Icon(Icons.shopping_cart),
-                            )
-                          : Icon(Icons.shopping_cart),
-                    ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => orderfromcus(
+                            codeorder: codeorder,
+                            nameorder: nameorder,
+                            numorder: numorder,
+                            numpercrate: numpercrate,
+                            productset: productset,
+                            priceforpack: priceforpack,
+                          )));
+                },
+                backgroundColor: ColorConstants.appbarcolor,
+                child: noti != 0
+                    ? Badge(
+                        badgeStyle: BadgeStyle(badgeColor: Colors.blue),
+                        badgeContent: Text(
+                          '$noti',
+                          style: TextStyle(
+                              fontSize: 12.0.sp,
+                              fontFamily: 'newtitlefont',
+                              color: Colors.red),
+                        ),
+                        child: Icon(Icons.shopping_cart),
+                      )
+                    : Icon(Icons.shopping_cart),
+              ),
             ),
           );
         },
@@ -764,7 +771,8 @@ class _checkstock extends State<checkstock> {
             u["amountpercrate"],
             u["productset"],
             u["type"],
-            u["fav"]);
+            u["fav"],
+            u["priceforpack"]);
         _allproduct.add(data);
         getgrouptype.add(u["type"]);
         getamount.add(u["amount"]);
@@ -797,7 +805,8 @@ class _checkstock extends State<checkstock> {
           u["amountpercrate"],
           u["productset"],
           u["type"],
-          u["fav"]);
+          u["fav"],
+          u["priceforpack"]);
       _allproduct.add(data);
     }
 
@@ -826,7 +835,8 @@ class _checkstock extends State<checkstock> {
           u["amountpercrate"],
           u["productset"],
           u["type"],
-          u["fav"]);
+          u["fav"],
+          u["priceforpack"]);
       _allproduct.add(data);
     }
 
@@ -925,7 +935,8 @@ class _checkstock extends State<checkstock> {
                             .amountpercrate
                             .toString());
                         productset.add(allproductfordisplay[index].productset);
-
+                        priceforpack
+                            .add(allproductfordisplay[index].priceforpack);
                         numbers.clear();
                         Navigator.pop(context);
                       }),
@@ -948,7 +959,7 @@ class _checkstock extends State<checkstock> {
       numorder = widget.numorder;
       numpercrate = widget.numpercrate;
       productset = widget.productset;
-      price = widget.price;
+      priceforpack = widget.priceforpack;
     } else {}
   }
 

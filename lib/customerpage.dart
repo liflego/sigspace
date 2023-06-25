@@ -429,7 +429,7 @@ class _customerpageState extends State<customerpage> {
                     numorder: [],
                     numpercrate: [],
                     productset: [],
-                    price: [],
+                    priceforpack: [],
                   ),
                 ));
               },
